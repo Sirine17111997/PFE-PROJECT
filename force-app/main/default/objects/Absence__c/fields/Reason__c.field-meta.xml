@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reason__c</fullName>
+    <externalId>false</externalId>
+    <label>Reason</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Urlaub</fullName>
+                <default>false</default>
+                <label>Urlaub</label>
+            </value>
+            <value>
+                <fullName>Überstundenausgleich</fullName>
+                <default>false</default>
+                <label>Überstundenausgleich</label>
+            </value>
+            <value>
+                <fullName>Fortbildung</fullName>
+                <default>false</default>
+                <label>Fortbildung</label>
+            </value>
+            <value>
+                <fullName>Elternzeit</fullName>
+                <default>false</default>
+                <label>Elternzeit</label>
+            </value>
+            <value>
+                <fullName>Sonderurlaub (bezahlt)</fullName>
+                <default>false</default>
+                <label>Sonderurlaub (bezahlt)</label>
+            </value>
+            <value>
+                <fullName>Sonderurlaub (unbezahlt)</fullName>
+                <default>false</default>
+                <label>Sonderurlaub (unbezahlt)</label>
+            </value>
+            <value>
+                <fullName>Krankheit</fullName>
+                <default>false</default>
+                <label>Krankheit</label>
+            </value>
+            <value>
+                <fullName>Kein Grund</fullName>
+                <default>false</default>
+                <label>Kein Grund</label>
+            </value>
+            <value>
+                <fullName>Sonstiges</fullName>
+                <default>false</default>
+                <label>Sonstiges</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

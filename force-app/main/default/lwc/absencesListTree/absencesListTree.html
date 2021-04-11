@@ -1,0 +1,17 @@
+<template>
+
+    <!-- With onselect handler -->
+    <div class="slds-p-around_medium lgc-bg">
+
+        <lightning-tree if:true={treeItems} items={treeItems} header="List of Absences" onselect={handleOnselect}>
+        </lightning-tree>
+        <div if:true={error}>
+            <p style='color:red'>
+                {error}
+            </p>
+        </div>
+    </div>
+
+
+
+</template>

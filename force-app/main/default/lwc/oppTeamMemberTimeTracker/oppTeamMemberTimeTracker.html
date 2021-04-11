@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title={LABELS.CARD_TITLE}>
+
+        <div class="slds-p-around_medium">
+
+            <template if:true={isLoading}>
+                <lightning-spinner alternative-text="Looking for unfinished business ..." size="medium">
+                </lightning-spinner>
+            </template>
+
+            <template if:true={isRecording}>
+                <div class="slds-grid slds-grid_align-center">
+                    <c-duration-timer start-time-string={startTime} end-time-string={currentTime}></c-duration-timer>
+                </div>
+            </template>
+
+            <lightning-record-edit-form object-api-name="OpportunityTeamMember">
+                <lightning-input-field disabled={isRecording} data-id="Input_UserId" value={UserId} field-name="UserId">
+                </lightning-input-field>
+                <lightning-input-field disabled={isRecording} data-id="Input_OpportunityId" value={OpportunityId} field-name="OpportunityId">
+                </lightning-input-field>
+            </lightning-record-edit-form>
+
+            <template if:true={isFullyLoaded}>
+                <div class="slds-grid slds-grid_vertical">
+
+                    <div class="slds-grid slds-grid_align-center slds-m-top_medium slds-gutters slds-gutters_x-small">
+                        <div class="slds-col">
+                            <lightning-button data-id="submitTimeEntryButton" label="Submit"
+                                icon-name="utility:record_create" variant="success" disabled={isWorking}
+                                name="Submit active recording" onclick={stopRecording}>
+                            </lightning-button>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button-icon icon-name="utility:delete" data-id="deleteTimeEntryButton"
+                                name="Delete active recording" disabled={isWorking} onclick={deleteRecording}>
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+
+                </div>
+
+            </template>
+
+            <template if:true={isReady}>
+                <div class="slds-grid slds-grid_align-center slds-m-top_large">
+                    <lightning-button-icon style="transform: scale(1.75)" data-id="startRecordingButton"
+                        icon-name="utility:play" variant="brand" name="Start recording ..." size="large"
+                        disabled={isWorking} onclick={startRecording}>
+                    </lightning-button-icon>
+                </div>
+            </template>
+
+        </div>
+
+    </lightning-card>
+</template>

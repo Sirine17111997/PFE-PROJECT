@@ -1,0 +1,58 @@
+<template>
+  <template if:true={showelement}>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_medium"
+      aria-labelledby="modal-heading-02" aria-modal="true" aria-describedby="modal-content-id-2">
+      <div class="slds-modal__container">
+        <!-- modal header -->
+        <header class="slds-modal__header">
+          <lightning-button-icon icon-name="utility:close" class="slds-float_right" onclick={closeModal}
+            alternative-text="close"></lightning-button-icon>
+          <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">Edit absence [modal] {Id}</h2>
+        </header>
+
+
+        <!-- modal content -->
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+
+
+          <lightning-record-edit-form object-api-name="cm_bm__Absence__c" record-id={Id} onsuccess={handleSuccess}>
+            <lightning-messages></lightning-messages>
+            <lightning-input-field field-name="cm_bm__Reason__c">
+            </lightning-input-field>
+            <lightning-input-field disabled field-name="cm_bm__StartDate__c">
+            </lightning-input-field>
+            <lightning-input-field disabled field-name="cm_bm__EndDate__c">
+            </lightning-input-field>
+            <lightning-input-field field-name="cm_bm__Workdays__c">
+            </lightning-input-field>
+            <lightning-input-field field-name="cm_bm__Approval__c"></lightning-input-field>
+            <lightning-input-field field-name="cm_bm__Certificate__c"></lightning-input-field>
+            <lightning-input-field field-name="cm_bm__DangerToEmployees__c"></lightning-input-field>
+            <lightning-input-field field-name="cm_bm__AbsenceManager__c"></lightning-input-field>
+            <!-- buttons save and cancel -->
+            <lightning-button-group class="slds-align_absolute-center">
+              <!-- delete  -->
+              <lightning-button variant="destructive" label="Delete" title="Delete" onclick={handleDelete}>
+              </lightning-button>
+              <!-- cancel -->
+              <lightning-button variant="neutral" label="Cancel" title="Cancel and close window" onclick={closeModal}>
+              </lightning-button>
+              <!-- submit  -->
+              <lightning-button type="submit" variant="brand" label="Save" title="Save">
+              </lightning-button>
+            </lightning-button-group>
+
+
+          </lightning-record-edit-form>
+
+
+        </div>
+        <!-- modal footer -->
+        <!-- <footer class="slds-modal__footer">
+          <lightning-button variant="neutral" label="Close" title="Close" onclick={closeModal}
+            class="slds-m-left_x-small"></lightning-button>
+        </footer> -->
+      </div>
+    </section>
+  </template>
+</template>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Certificate__c</fullName>
+    <externalId>false</externalId>
+    <label>Certificate</label>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Kein Nachweis erforderlich</fullName>
+                <default>false</default>
+                <label>Kein Nachweis erforderlich</label>
+            </value>
+            <value>
+                <fullName>Nachweis/Ärztliches benötigt</fullName>
+                <default>false</default>
+                <label>Nachweis/Ärztliches benötigt</label>
+            </value>
+            <value>
+                <fullName>Nachweis/Ärztliches Attest erbracht</fullName>
+                <default>false</default>
+                <label>Nachweis/Ärztliches Attest erbracht</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

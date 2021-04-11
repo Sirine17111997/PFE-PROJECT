@@ -1,0 +1,44 @@
+<template>
+
+
+
+
+  <!-- calendar -->
+  <!-- <div>
+    <lightning-button variant="brand" label="<" title="Previous Month" onclick={prevClick}></lightning-button>
+    <lightning-button variant="brand" label=">" title="Next Month" onclick={nextClick}></lightning-button>
+  </div> -->
+  <lightning-layout>
+    <!-- <lightning-button variant="neutral" label="goToDate"  onclick={goToDate}></lightning-button> -->
+    <lightning-layout-item flexibility="auto" padding="around-small">
+      <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+        <!-- spinner -->
+        <template if:true={spinnerFC}>
+          <div class="demo-only demo-only demo-only_viewport" style="height:6rem">
+            <div role="status" class="slds-spinner slds-spinner_medium ">
+              <span class="slds-assistive-text">Loading</span>
+              <div class="slds-spinner__dot-a"></div>
+              <div class="slds-spinner__dot-b"></div>
+            </div>
+          </div>
+        </template>
+
+        <!-- full calendar -->
+        <div class="fullcalendarjs" lwc:dom="manual"></div>
+      </div>
+    </lightning-layout-item>
+  </lightning-layout>
+
+  <!-- modal -->
+  <!-- new-absence-record={newAbsenceRecord} -->
+  <div>
+    <c-modal-new-absence oncreated={handleRecordsChange}></c-modal-new-absence>
+    <c-modal-edit-absence onupdated={handleRecordsChange} ondeleted={handleRecordsChange}></c-modal-edit-absence>
+  </div>
+
+
+
+
+
+
+</template>

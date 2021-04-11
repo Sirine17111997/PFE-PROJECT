@@ -1,0 +1,29 @@
+<template>
+         <lightning-datatable
+                key-field="Id"
+                data={data}
+                columns={columns}
+                title="Absences For Approval"
+                hide-checkbox-column
+                show-row-number-column
+                onrowaction={handleRowAction}>
+        </lightning-datatable>
+  
+    <div class="slds-m-around--medium" >
+        <article class="slds-tile">
+            <h3 class="slds-tile__title slds-truncate" title="Record details"><a href="javascript:void(0);">Absence details</a></h3>
+            <div class="slds-tile__detail">
+                <dl class="slds-list_horizontal slds-wrap">
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Name">Name:</dt>
+                    <dd class="slds-item_detail slds-truncate">{record.absencemanager__r}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Workdays">Workdays:</dt>
+                    <dd class="slds-item_detail slds-truncate">{recordWorkdays__c}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Reason">Reason:</dt>
+                    <dd class="slds-item_detail slds-truncate">{record.Reason__c}</dd>
+                    <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Certificate">Certificate:</dt>
+                    <dd class="slds-item_detail slds-truncate">{record.Certificate__c}</dd>
+                </dl>
+            </div>
+        </article>
+    </div>
+</template>

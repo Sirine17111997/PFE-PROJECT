@@ -1,0 +1,18 @@
+/* .fc-sun{ background-color:#c4c4c4;pointer-events: none; }
+.fc-sat { background-color:#c4c4c4;pointer-events: none;} */
+
+
+.my-custom-disabled-event { background-color:#777777;pointer-events: none;}
+
+/* .fc-event {background-color:greenyellow  !important;} */
+hideClass
+{ display:none; }
+
+showClass
+{ display:block; }
+
+
+.external-events .fc-event {
+    margin: 1rem;
+    cursor: pointer;
+  }

@@ -1,0 +1,36 @@
+<template>
+    <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+        <lightning-layout>
+            <!--lightning-layout-item flexibility="auto" padding="around-small"-->
+            <template if:true={isabsencemanager}>
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                    
+                    <lightning-record-form 
+                    record-id={absenceid} 
+                    object-api-name={absenceManager}
+                    layout-type="Full"
+                    columns="3"
+                    mode="readonly" >
+                    </lightning-record-form>  
+                
+                </div>
+            </template>
+            <!--/lightning-layout-item-->
+            <!--lightning-layout-item flexibility="auto" padding="around-small"-->
+            <template if:true={isabsence}>
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                  
+                    <lightning-record-form 
+                    record-id={absenceid} 
+                    object-api-name={absence}
+                    layout-type="Full"
+                    columns="3"
+                    mode="readonly" >
+                    </lightning-record-form>   
+                
+                </div>
+            </template>
+            <!--/lightning-layout-item-->
+        </lightning-layout>
+    </div>
+</template>

@@ -1,0 +1,9 @@
+lightning-checkbox-group {
+    background: aliceblue;
+    
+} 
+lightning-checkbox-group  fieldset  div {
+    display: inline-flex ;
+    background-color: greenyellow;
+
+    }
