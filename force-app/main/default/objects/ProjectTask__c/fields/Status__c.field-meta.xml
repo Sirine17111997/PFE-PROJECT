@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Status__c</fullName>
-    <deprecated>false</deprecated>
     <externalId>false</externalId>
     <label>Status</label>
     <required>false</required>
@@ -13,9 +12,9 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Backlog</fullName>
+                <fullName>Backlock</fullName>
                 <default>true</default>
-                <label>Backlog</label>
+                <label>Backlock</label>
             </value>
             <value>
                 <fullName>Planned</fullName>
@@ -41,6 +40,11 @@
                 <fullName>Canceled</fullName>
                 <default>false</default>
                 <label>Canceled</label>
+            </value>
+            <value>
+                <fullName>Overdue</fullName>
+                <default>false</default>
+                <label>Overdue</label>
             </value>
         </valueSetDefinition>
     </valueSet>

@@ -3,7 +3,11 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Project__c</columns>
-    <columns>Assigned_To__c</columns>
+    <columns>Assigned_To_Project_Team_Member__c</columns>
     <filterScope>Everything</filterScope>
+    <filters>
+        <field>Assigned_To_Project_Team_Member__c</field>
+        <operation>equals</operation>
+    </filters>
     <label>All</label>
 </ListView>

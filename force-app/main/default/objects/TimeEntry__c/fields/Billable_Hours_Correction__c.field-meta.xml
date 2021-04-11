@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Billable_Hours_Correction__c</fullName>
-    <deprecated>false</deprecated>
     <externalId>false</externalId>
     <inlineHelpText>In order to correct the billable hours, hours can be entered here. A value with a minus reduces the billable hours.</inlineHelpText>
     <label>Billable Hours Correction</label>

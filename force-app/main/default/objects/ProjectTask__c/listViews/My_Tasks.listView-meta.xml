@@ -3,6 +3,7 @@
     <fullName>My_Tasks</fullName>
     <columns>NAME</columns>
     <columns>Project__c</columns>
+    <columns>PlanedBudged__c</columns>
     <columns>UsedBudget__c</columns>
     <columns>Description__c</columns>
     <columns>Status__c</columns>

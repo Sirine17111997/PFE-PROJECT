@@ -3,7 +3,8 @@
     <fullName>All_Open_Tasks</fullName>
     <columns>NAME</columns>
     <columns>Project__c</columns>
-    <columns>Assigned_To__c</columns>
+    <columns>Assigned_To_Project_Team_Member__c</columns>
+    <columns>PlanedBudged__c</columns>
     <columns>UsedBudget__c</columns>
     <filterScope>Everything</filterScope>
     <filters>

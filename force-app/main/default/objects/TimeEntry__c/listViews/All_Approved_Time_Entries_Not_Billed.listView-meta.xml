@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>Project_Task__c</columns>
     <columns>Project_Team_Member__c</columns>
+    <columns>Date__c</columns>
     <columns>Status__c</columns>
     <columns>Duration_in_Hours__c</columns>
     <columns>TotalAmount__c</columns>

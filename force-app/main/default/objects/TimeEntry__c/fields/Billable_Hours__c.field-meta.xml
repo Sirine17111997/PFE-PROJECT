@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Billable_Hours__c</fullName>
-    <deprecated>false</deprecated>
     <externalId>false</externalId>
-    <formula>ROUND((Duration_in_Hours__c  +  Billable_Hours_Correction__c ),2)</formula>
+    <formula>ROUND((Duration_in_Hours__c  +  Billable_Hours_Correction__c ),0)</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Billable Hours</label>
     <precision>18</precision>

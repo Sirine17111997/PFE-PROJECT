@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Completed_Project_Tasks__c</fullName>
+    <fullName>PlannedTotalBudget__c</fullName>
     <externalId>false</externalId>
-    <label>Completed Project Tasks</label>
-    <summaryFilterItems>
-        <field>ProjectTask__c.Status__c</field>
-        <operation>equals</operation>
-        <value>Completed</value>
-    </summaryFilterItems>
+    <label>Planned Total Budget</label>
+    <summarizedField>ProjectTask__c.PlanedBudged__c</summarizedField>
     <summaryForeignKey>ProjectTask__c.Project__c</summaryForeignKey>
-    <summaryOperation>count</summaryOperation>
+    <summaryOperation>sum</summaryOperation>
     <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Summary</type>
