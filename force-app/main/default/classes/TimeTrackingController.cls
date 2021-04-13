@@ -9,9 +9,9 @@ public with sharing class TimeTrackingController {
     *   @return             List of unfinished Time Entries.
     */
     @AuraEnabled(cacheable=true)
-    public static List<cm_bm__TimeEntry__c> getUnfinishedTimeEntries(){
+    public static List<TimeEntry__c> getUnfinishedTimeEntries(){
         return [SELECT Id
-                FROM cm_bm__TimeEntry__c WHERE OwnerId = :UserInfo.getUserId() AND cm_bm__End__c = null
+                FROM TimeEntry__c WHERE OwnerId = :UserInfo.getUserId() AND End__c = null
                 ORDER BY CreatedDate DESC];
     }
  

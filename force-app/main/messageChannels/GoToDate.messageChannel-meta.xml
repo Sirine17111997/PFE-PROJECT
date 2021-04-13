@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Lightning Message Channel initiates the full calendar at the selected(in AbsencesListTree) absence&apos;s start date</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>absenceStartDate</description>
+        <fieldName>param</fieldName>
+    </lightningMessageFields>
+    <masterLabel>GoToDate</masterLabel>
+</LightningMessageChannel>

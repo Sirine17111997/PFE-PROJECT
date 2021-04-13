@@ -129,10 +129,10 @@
     <actionOverrides>
         <actionName>View</actionName>
         <comment>Action override created by Lightning App Builder during activation.</comment>
-        <content>Project_Task_Datensatzseite1</content>
+   
         <formFactor>Large</formFactor>
         <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Flexipage</type>
+       
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
@@ -163,7 +163,7 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Project Tasks</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>

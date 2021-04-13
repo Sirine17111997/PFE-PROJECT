@@ -7,7 +7,7 @@ public class PostInstall_Test {
            Test.stopTest(); 
      
      
-       List<cm_bm__MyHoliday__c> lstH = [ SELECT Id FROM cm_bm__MyHoliday__c];
+       List<MyHoliday__c> lstH = [ SELECT Id FROM MyHoliday__c];
        system.assertEquals(lstH.size()>0,true);
        
     }

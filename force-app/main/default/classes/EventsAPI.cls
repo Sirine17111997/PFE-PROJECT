@@ -5,7 +5,7 @@ public with sharing class EventsAPI{
 		List<User> usersInfo = [SELECT Id, Country, State, Username, LastName
 		                        FROM User
 		                        where Country != null];
-		List<cm_bm__MyHoliday__c> mhLst = new List<cm_bm__MyHoliday__c>();
+		List<MyHoliday__c> mhLst = new List<MyHoliday__c>();
 		for (User u : usersInfo){
 			List<Object> lstObj = new List<Object>();
 			Integer currentYear = System.today().year();
@@ -49,8 +49,8 @@ public with sharing class EventsAPI{
 				}
 			}
 			for (MyHoliday res : results){
-				if (Schema.sObjectType.cm_bm__MyHoliday__c.fields.holidayName__c.isCreateable() && Schema.sObjectType.cm_bm__MyHoliday__c.fields.localName__c.isCreateable() && Schema.sObjectType.cm_bm__MyHoliday__c.fields.date__c.isCreateable() && Schema.sObjectType.cm_bm__MyHoliday__c.fields.User__c.isCreateable()){
-					cm_bm__MyHoliday__c mhS = new cm_bm__MyHoliday__c(holidayName__c = res.nameHoliday, localName__c = res.localNameHoliday, date__c = res.dateHoliday, User__c = u.Id);
+				if (Schema.sObjectType.MyHoliday__c.fields.holidayName__c.isCreateable() && Schema.sObjectType.MyHoliday__c.fields.localName__c.isCreateable() && Schema.sObjectType.MyHoliday__c.fields.date__c.isCreateable() && Schema.sObjectType.MyHoliday__c.fields.User__c.isCreateable()){
+					MyHoliday__c mhS = new MyHoliday__c(holidayName__c = res.nameHoliday, localName__c = res.localNameHoliday, date__c = res.dateHoliday, User__c = u.Id);
 					if (mhS != null){
 						mhLst.add(mhS);
 					}
@@ -71,17 +71,17 @@ public with sharing class EventsAPI{
 	}
 
 	@AuraEnabled
-	public static List<cm_bm__MyHoliday__c> getUserHolidays(){
+	public static List<MyHoliday__c> getUserHolidays(){
 		ID userId = UserInfo.getUserId();
-		List<cm_bm__MyHoliday__c> result = new List<cm_bm__MyHoliday__c>();
-		List<AggregateResult> lstRes = [SELECT cm_bm__holidayName__c, cm_bm__date__c, count(Name) cnt__c
-		                                FROM cm_bm__MyHoliday__c
+		List<MyHoliday__c> result = new List<MyHoliday__c>();
+		List<AggregateResult> lstRes = [SELECT holidayName__c, date__c, count(Name) cnt__c
+		                                FROM MyHoliday__c
 		                                WHERE User__c = :userId
-		                                GROUP BY cm_bm__holidayName__c, cm_bm__date__c];
+		                                GROUP BY holidayName__c, date__c];
 		for (AggregateResult ar : lstRes){
-			cm_bm__MyHoliday__c mh = new cm_bm__MyHoliday__c();
-			mh.cm_bm__holidayName__c = (String)ar.get('cm_bm__holidayName__c');
-			mh.cm_bm__date__c = (String)ar.get('cm_bm__date__c');
+			MyHoliday__c mh = new MyHoliday__c();
+			mh.holidayName__c = (String)ar.get('holidayName__c');
+			mh.date__c = (String)ar.get('date__c');
 			result.add(mh);
 		}
 
@@ -90,9 +90,9 @@ public with sharing class EventsAPI{
 
 	//get all absences (cacheable = true)
 	@AuraEnabled
-	public static List<cm_bm__Absence__c> getAllAbsences(){
-		List<cm_bm__Absence__c> lstAbsences = [SELECT Id, cm_bm__StartDate__c, cm_bm__EndDate__c, cm_bm__Reason__c, cm_bm__Approval__c, cm_bm__Certificate__c, cm_bm__AbsenceManager__c, Note__c, cm_bm__Workdays__c, DangerToEmployees__c
-		                                FROM cm_bm__Absence__c];
+	public static List<Absence__c> getAllAbsences(){
+		List<Absence__c> lstAbsences = [SELECT Id, StartDate__c, EndDate__c, Reason__c, Approval__c, Certificate__c, AbsenceManager__c, Note__c, Workdays__c, DangerToEmployees__c
+		                                FROM Absence__c];
 
 		return lstAbsences;
 	}
@@ -100,23 +100,23 @@ public with sharing class EventsAPI{
 	/*
 	//get absences by employee
 	 @AuraEnabled(cacheable = true)
-	 public static List<cm_bm__Absence__c> getUserAbsences(){
-	 cm_bm__Employee__c emp =[select Id,Name from  cm_bm__Employee__c
+	 public static List<Absence__c> getUserAbsences(){
+	 Employee__c emp =[select Id,Name from  Employee__c
 	//where Id=:empId
 	 where Id='a003z00000t7BwIAAU'
 	 limit 1];
-	 List<cm_bm__Absence__c> lstAbsences = new List<cm_bm__Absence__c>();
+	 List<Absence__c> lstAbsences = new List<Absence__c>();
 	 string current_year=string.valueOf(System.Today().year());
-	 cm_bm__AbsenceManager__c absenceManager = [select ID, (
-	 select ID, cm_bm__Approval__c, cm_bm__Reason__c, cm_bm__StartDate__c, cm_bm__EndDate__c
-	 from cm_bm__Absences__r)
-	 from cm_bm__AbsenceManager__c
+	 AbsenceManager__c absenceManager = [select ID, (
+	 select ID, Approval__c, Reason__c, StartDate__c, EndDate__c
+	 from Absences__r)
+	 from AbsenceManager__c
 	 where year__c =:current_year
 	//and employee__r.Name = :emp.Name
 	 limit 1];
 
 
-	 for (cm_bm__Absence__c absence : absenceManager.cm_bm__Absences__r){
+	 for (Absence__c absence : absenceManager.Absences__r){
 	 lstAbsences.add(absence);
 	 }
 	 System.debug(lstAbsences);
@@ -125,10 +125,10 @@ public with sharing class EventsAPI{
 	 */
 	//get events  categories for the connected user
 	@AuraEnabled
-	public static List<cm_bm__EventsCategories__c> getEventsCategories(){
+	public static List<EventsCategories__c> getEventsCategories(){
 		// ID userId = UserInfo.getUserId();
-		List<cm_bm__EventsCategories__c> result = [select Id, Name, label__c, color__c, selected__c
-		                                    from cm_bm__EventsCategories__c];
+		List<EventsCategories__c> result = [select Id, Name, label__c, color__c, selected__c
+		                                    from EventsCategories__c];
 		return result;
 	}
 
@@ -137,9 +137,9 @@ public with sharing class EventsAPI{
 	public static void updateEventsCategories(String eventsColors){
 		List<String> lstEvents = new List<String>();
 		lstEvents = eventsColors.split(',');
-		List<cm_bm__EventsCategories__c> lst = [select Id, color__c, selected__c
-		                                 from cm_bm__EventsCategories__c];
-		for (cm_bm__EventsCategories__c elem : lst){
+		List<EventsCategories__c> lst = [select Id, color__c, selected__c
+		                                 from EventsCategories__c];
+		for (EventsCategories__c elem : lst){
 			if (lstEvents.contains(elem.color__c)){
 				elem.selected__c = true;
 			} else{
@@ -152,20 +152,20 @@ public with sharing class EventsAPI{
 	/*//delete absence by id
 	 @AuraEnabled
 	 public static void deleteAbsenceById(String idDelete){
-	 List<cm_bm__Absence__c> lstAbs= [select Id  from cm_bm__Absence__c where Id =: idDelete];
+	 List<Absence__c> lstAbs= [select Id  from Absence__c where Id =: idDelete];
 	 delete lstAbs;
 	 }*/
 	//update duration  by idUpdate , newStart and newEnd
 	@AuraEnabled
 	public static void updateAbsenceDuration(String idUpdate, String startDate, String endDate){
-		List<cm_bm__Absence__c> lstAbs = [select Id, cm_bm__StartDate__c, cm_bm__EndDate__c
-		                           from cm_bm__Absence__c
+		List<Absence__c> lstAbs = [select Id, StartDate__c, EndDate__c
+		                           from Absence__c
 		                           where Id = :idUpdate];
 		Date d1 = date.valueOf(startDate);
 		Date d2 = date.valueOf(endDate);
-		if (Schema.sObjectType.cm_bm__Absence__c.fields.cm_bm__StartDate__c.isUpdateable() && Schema.sObjectType.cm_bm__Absence__c.fields.cm_bm__EndDate__c.isUpdateable()){
-			lstAbs[0].cm_bm__StartDate__c = d1;
-			lstAbs[0].cm_bm__EndDate__c = d2;
+		if (Schema.sObjectType.Absence__c.fields.StartDate__c.isUpdateable() && Schema.sObjectType.Absence__c.fields.EndDate__c.isUpdateable()){
+			lstAbs[0].StartDate__c = d1;
+			lstAbs[0].EndDate__c = d2;
 			update lstAbs;
 		}
 	}

@@ -19,11 +19,11 @@ public class AbsenceController_Test {
 		
          insert u;
          System.runAs(u) {
-         cm_bm__Employee__c	  e  = new cm_bm__Employee__c( Name='test emp', User__c=u.Id);
+         Employee__c	  e  = new Employee__c( Name='test emp', User__c=u.Id);
              insert e;
-      	 cm_bm__AbsenceManager__c abm = new cm_bm__AbsenceManager__c(Name='test AbsenceManager',cm_bm__Employee__c=e.Id);
+      	 AbsenceManager__c abm = new AbsenceManager__c(Name='test AbsenceManager',Employee__c=e.Id);
               insert abm;
-         cm_bm__Absence__c        ab=new cm_bm__Absence__c(cm_bm__AbsenceManager__c=abm.Id,cm_bm__Approval__c='Ausstehend');
+         Absence__c        ab=new Absence__c(AbsenceManager__c=abm.Id,Approval__c='Ausstehend');
               insert ab;
              
          }
@@ -48,7 +48,7 @@ public class AbsenceController_Test {
     		system.assertEquals(result.size(),1);
     }
         static testMethod void test_getAbsencesForApproval(){
-    	   List<cm_bm__Absence__c> result= AbsenceController.getAbsencesForApproval();
+    	   List<Absence__c> result= AbsenceController.getAbsencesForApproval();
     		system.assertEquals(result.size(),1);
     }
 }

@@ -1,23 +1,23 @@
 public with sharing class AbsenceController{
 	@AuraEnabled(cacheable = true)
 	public static List<AbsenceManagerWrapper> getTreeData(){
-		List<cm_bm__AbsenceManager__c> absM = [Select ID, Name, employee__r.Name, (select ID, Name, cm_bm__StartDate__c, cm_bm__EndDate__c
-		                                                                    from cm_bm__Absences__r)
-		                                from cm_bm__AbsenceManager__c];//where year__c='2020'
+		List<AbsenceManager__c> absM = [Select ID, Name, employee__r.Name, (select ID, Name, StartDate__c, EndDate__c
+		                                                                    from Absences__r)
+		                                from AbsenceManager__c];//where year__c='2020'
 		List<AbsenceManagerWrapper> aooo = new List<AbsenceManagerWrapper>();
-		for (cm_bm__AbsenceManager__c a : absM){
+		for (AbsenceManager__c a : absM){
 			AbsenceManagerWrapper aWraper = new AbsenceManagerWrapper();
 			aWraper.name = 'E' + a.ID;
 			aWraper.label = a.employee__r.Name;
 			aWraper.expanded = true;
 			aWraper.disabled = true;
 			List<Items> co = new List<Items>();
-			for (cm_bm__Absence__c c : a.cm_bm__Absences__r){
+			for (Absence__c c : a.Absences__r){
 				Items conWrapp = new Items();
 				conWrapp.name = c.ID;
 				conWrapp.label = c.Name;
-				// conWrapp.label = String.valueOf(c.cm_bm__StartDate__c);
-				conWrapp.StartDate = String.valueOf(c.cm_bm__StartDate__c);
+				// conWrapp.label = String.valueOf(c.StartDate__c);
+				conWrapp.StartDate = String.valueOf(c.StartDate__c);
 				conWrapp.expanded = true;
 				aWraper.disabled = false;
 				co.add(conWrapp);
@@ -31,11 +31,11 @@ public with sharing class AbsenceController{
 	}
 
 	@AuraEnabled(cacheable = true)
-	public static List<cm_bm__Absence__c> getAbsencesForApproval(){
-		List<cm_bm__Absence__c> absences;
-		absences = [select ID, Name, absencemanager__r.employee__r.Name, cm_bm__StartDate__c, cm_bm__EndDate__c, cm_bm__Reason__c, Note__c, cm_bm__Certificate__c, cm_bm__Workdays__c
-		            from cm_bm__Absence__c
-		            where cm_bm__Approval__c = 'Ausstehend'];
+	public static List<Absence__c> getAbsencesForApproval(){
+		List<Absence__c> absences;
+		absences = [select ID, Name, absencemanager__r.employee__r.Name, StartDate__c, EndDate__c, Reason__c, Note__c, Certificate__c, Workdays__c
+		            from Absence__c
+		            where Approval__c = 'Ausstehend'];
 		return absences;
 	}
 

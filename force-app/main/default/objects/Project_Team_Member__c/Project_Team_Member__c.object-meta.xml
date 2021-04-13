@@ -153,7 +153,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>ControlledByParent</externalSharingModel>
-    <gender>Masculine</gender>
+    
     <label>Project Team Member</label>
     <nameField>
         <label>Project Team Member Name</label>
@@ -161,7 +161,7 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Project Team Members</pluralLabel>
-    <searchLayouts></searchLayouts>
+    <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
     <visibility>Public</visibility>
 </CustomObject>
