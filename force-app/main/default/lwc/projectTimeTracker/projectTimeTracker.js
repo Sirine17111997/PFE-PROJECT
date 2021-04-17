@@ -1,4 +1,4 @@
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, track, wire,api } from 'lwc';
 
 
 import {
@@ -15,6 +15,9 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { reduceDMLErrors } from 'c/utilities';
 
 import getUnfinishedTimeEntries from '@salesforce/apex/TimeTrackingController.getUnfinishedTimeEntries';
+import getProjectTeamMember from '@salesforce/apex/TimeTrackingController.getProjectTeamMember';
+
+
 
 import TIME_ENTRY_OBJECT from '@salesforce/schema/TimeEntry__c';
 import TIME_ENTRY_PROJECT_TEAM_MEMBER_FIELD from '@salesforce/schema/TimeEntry__c.Project_Team_Member__c';
@@ -27,16 +30,18 @@ import TIME_ENTRY_DESCRIPTION_FIELD from '@salesforce/schema/TimeEntry__c.Descri
 
 // PROJECT_TEAM_MEMBER fields(we can add additional fields if needed)
 import PROJECT_TEAM_MEMBER_DAILYRATE_FIELD from '@salesforce/schema/Project_Team_Member__c.Project_Daily_Rate__c';
-import PROJECT_TEAM_MEMBER_NAME_FIELD from '@salesforce/schema/Project_Team_Member__c.Name';
+import PROJECT_TEAM_MEMBER_NAME_FIELD from '@salesforce/schema/Project_Team_Member__c.Project__r.Name';
 import PROJECT_TEAM_MEMBER_PROJECT_FIELD from '@salesforce/schema/Project_Team_Member__c.Project__c';
 
 // PROJECT_TASK fields(we can add additional fields if needed)
 import PROJECT_TASK_NAME_FIELD from '@salesforce/schema/ProjectTask__c.Name';
 import PROJECT_TASK_PROJECT_FIELD from '@salesforce/schema/ProjectTask__c.Project__c';
 
+export default class ProjectTimeTracker extends LightningElement {
 
-
-export default class TimeTracker extends LightningElement {
+    // @track projectId;
+    // @wire(getRecord, { recordId: '$projectId', fields: [PROJECT_TEAM_MEMBER_NAME_FIELD] })
+    // projectTeamMember
 
     LABELS = {
         CARD_TITLE: 'Time Tracking',
@@ -45,7 +50,6 @@ export default class TimeTracker extends LightningElement {
         TOAST_TITLE_STOPPED_SUCCESS: 'Recording successfully stopped. Time Entry submitted.',
         TOAST_TITLE_STOPPED_ERROR: 'TimeTracking_Toast_CanNotStopRecording',
         TOAST_TITLE_RECORDING_ABORTED: 'Recording aborted! Time Entry has been deleted.',
-        TOAST_TITLE_STOPPED: 'TimeTracking is stopped.',
         TOAST_TITLE_RECORDING_REQUIRED_FIELDS: 'Please fill all the time entry required fields.'
     }
 
@@ -56,10 +60,10 @@ export default class TimeTracker extends LightningElement {
     @track isLoading = true;
     @track isWorking = false;
     @track activeTimeEntryId;
-    @track currentTime = new Date().toISOString();
-    @track isUpdating = false;
+    @track currentTime = new Date().toISOString()
 
-
+    @api recordId;
+   
     @wire(getRecordCreateDefaults, { objectApiName: TIME_ENTRY_OBJECT })
     timeEntryDefaults;
 
@@ -77,16 +81,18 @@ export default class TimeTracker extends LightningElement {
     getTimeEntryRecord({ data }) {
         this.activeTimeEntry = data;
         if (this.activeTimeEntry) {
-            this.template.querySelector('[data-id="InputProject_Team_Member__c"]').value = data.fields.Project_Team_Member__c.value;
+            this.template.querySelector('[data-id="InputProject_Team_Member__c"]').value = projectsTeamMember;
             this.template.querySelector('[data-id="InputProject_Task__c"]').value = data.fields.Project_Task__c.value;
             this.isLoading = false;
         }
     }
-
-    @wire(getRecord, {
-        recordId: '$projectTeamMemberId', fields: [PROJECT_TEAM_MEMBER_NAME_FIELD, PROJECT_TEAM_MEMBER_DAILYRATE_FIELD, PROJECT_TEAM_MEMBER_PROJECT_FIELD]
-    })
-    projectTeamMember
+    @wire(getProjectTeamMember, {projectId:'$recordId',fields: [PROJECT_TEAM_MEMBER_NAME_FIELD] })
+    projectsTeamMember;
+    
+    // @wire(getProjectTeamMember, {
+    //     idProject: '$projectTeamMemberId', fields: [PROJECT_TEAM_MEMBER_NAME_FIELD, PROJECT_TEAM_MEMBER_DAILYRATE_FIELD, PROJECT_TEAM_MEMBER_PROJECT_FIELD]
+    // })
+    // projectTeamMember;
 
 
     @wire(getRecord, {
@@ -133,7 +139,6 @@ export default class TimeTracker extends LightningElement {
         createRecord(newTimeEntry)
             .then((newRecord) => {
                 this.isRecording = true;
-                this.isUpdating = false;
                 this.isWorking = false;
                 this.dispatchToast('success', this.LABELS.TOAST_TITLE_STARTED_SUCCESS);
                 this.activeTimeEntry = newRecord;
@@ -146,7 +151,7 @@ export default class TimeTracker extends LightningElement {
             });
     }
 
-    submitRecording() {
+    stopRecording() {
         console.log("stop recording-*********");
         this.isWorking = true;
         let fieldsMap = new Map();
@@ -169,27 +174,6 @@ export default class TimeTracker extends LightningElement {
             });
     }
 
-
-    stopRecording() {
-        this.isWorking = true;
-        this.isUpdating = true;
-        let fieldsMap = new Map();
-        fieldsMap[TIME_ENTRY_ENDTIME_FIELD.fieldApiName] = this.currentTime.substr(0, 19)
-        fieldsMap[TIME_ENTRY_DESCRIPTION_FIELD.fieldApiName] = this.template.querySelector('[data-id="InputDescription__c"]').value
-         deleteRecord(this.activeTimeEntryId)
-            .then(() => {
-                // this.dispatchToast('warning', this.TOAST_TITLE_STOPPED);
-                this.activeTimeEntryId = undefined;
-                this.activeTimeEntry = undefined;
-                this.isRecording = false;
-                this.isWorking = false;
-            })
-            .catch((error) => {
-                this.dispatchToast('error', this.LABELS.TOAST_TITLE_ERROR, reduceDMLErrors(error));
-                this.isWorking = false;
-            });
-    }
-
     deleteRecording() {
         this.isWorking = true;
         deleteRecord(this.activeTimeEntryId)
@@ -206,32 +190,6 @@ export default class TimeTracker extends LightningElement {
             });
     }
 
-    // stopRecord(){
-    //     // this.isWorking = true;
-    //     console.log("stop recording2222-*********");
-    //     this.isWorking = true;
-    //     let fieldsMap = new Map();
-    //     fieldsMap[TIME_ENTRY_ENDTIME_FIELD.fieldApiName] = this.currentTime.substr(0, 19)
-    //     fieldsMap[TIME_ENTRY_DESCRIPTION_FIELD.fieldApiName] = this.template.querySelector('[data-id="InputDescription__c"]').value
-    //     // fieldsMap[TIME_ENTRY_PROJECT_TEAM_MEMBER_FIELD.fieldApiName] = this.template.querySelector('[data-id="InputDescription__c"]').value
-    //     let updateTimeEntry = this.updateActiveTimeEntry(fieldsMap);
-    //     updateRecord(updateTimeEntry)
-    //         .then((updatedRecord) => {
-    //             this.dispatchToast('success', this.LABELS.TOAST_TITLE_STOPPED_SUCCESS);
-    //             this.updateActiveTimeEntry(updatedRecord);
-    //             this.isWorking = false;
-    //             this.isRecording = false;
-    //             this.clearInputs(
-    //                 this.template.querySelector('[data-id="InputProject_Task__c"]'),
-    //                 this.template.querySelector('[data-id="InputProject_Team_Member__c"]'))
-    //         }).catch((error) => {
-    //             this.dispatchToast('error', this.LABELS.TOAST_TITLE_STOPPED_ERROR, reduceDMLErrors(error));
-    //             this.isWorking = false;
-    //         });
-        
-
-    // }
-
     updateRecordLookup(event) {
         this.isWorking = true;
         let timeEntryUpdate = this.createTimeEntryRecordInputForField(
@@ -245,7 +203,6 @@ export default class TimeTracker extends LightningElement {
     updateRecordValue(event) {
         this.isWorking = true;
         this.isLoading = true;
-        this.isUpdating = true;
         let timeEntryUpdate = this.createTimeEntryRecordInputForField(event.currentTarget.name, event.currentTarget.value);
         // this.updateTimeEntryRecord(timeEntryUpdate);
         updateRecord(timeEntryUpdate)
@@ -273,10 +230,6 @@ export default class TimeTracker extends LightningElement {
         return this.isRecording && !this.isLoading;
     }
 
-    get isFullyUpdated() {
-        return this.isUpdating && !this.isLoading;
-    }
-
 
     get Project_TaskId() {
         return getFieldValue(this.activeTimeEntry, TIME_ENTRY_PROJECT_TASK_FIELD);
@@ -293,13 +246,8 @@ export default class TimeTracker extends LightningElement {
     get startTime() {
         return getFieldValue(this.activeTimeEntry, TIME_ENTRY_STARTTIME_FIELD) ? getFieldValue(this.activeTimeEntry, TIME_ENTRY_STARTTIME_FIELD) : this.currentTime
     }
-    get startTime2() {
-        return getFieldValue(this.activeTimeEntry, TIME_ENTRY_STARTTIME_FIELD) ;
-    }
 
-    get endTime() {
-        return getFieldValue(this.activeTimeEntry, TIME_ENTRY_ENDTIME_FIELD) ? getFieldValue(this.activeTimeEntry, TIME_ENTRY_ENDTIME_FIELD) : this.currentTime
-    }
+
 
 
 
@@ -373,6 +321,8 @@ export default class TimeTracker extends LightningElement {
             inputField.reset()
         });
     }
+
+
 
 
 

@@ -6,7 +6,7 @@ export default class DurationTimer extends LightningElement {
     get startTimeString() {
         return this.startTime.toISOString().split('T')[1];
     }
-    set startTimeString(value) {
+    set startTimeString(value){
         let today = new Date().toISOString().split('T')[0];
         this.startTime = new Date(today + 'T' + value.split('T')[1].substring(0,8))
     }

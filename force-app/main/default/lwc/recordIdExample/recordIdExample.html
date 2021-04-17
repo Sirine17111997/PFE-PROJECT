@@ -1,0 +1,11 @@
+<template>
+   
+        <template if:true={projectsTeamMember.data}>
+            <ul>
+                <template for:each={projectsTeamMember.data} for:item="teamMember">
+                    <li key={teamMember.Id}>{teamMember.Name}</li>
+                </template>
+            </ul>
+        </template>
+    
+</template>

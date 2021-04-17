@@ -1,0 +1,13 @@
+<template>
+    <!-- <h6> Get Opportunities based on the Selected Opportunity Stage </h6> -->
+    <lightning-combobox name="Related To" label="Related To" placeholder="Choose" value={value}
+        onchange={handleChange} options={statusOptions}>
+    </lightning-combobox>
+    <template if:true={isOppTeamMember}>
+        <c-search-opp-tm></c-search-opp-tm>
+        </template>
+        <template if:true={isProjectTeamMember}>
+            <c-search-project-tm></c-search-project-tm>
+            
+            </template> 
+            </template>

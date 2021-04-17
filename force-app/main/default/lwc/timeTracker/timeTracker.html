@@ -3,45 +3,116 @@
 
         <div class="slds-p-around_medium">
 
-             <!-- 
             <template if:true={isLoading}>
                 <lightning-spinner alternative-text="Looking for unfinished business ..." size="medium">
                 </lightning-spinner>
-            </template>  -->
+            </template>
 
             <template if:true={isRecording}>
-                <div  class="slds-grid slds-grid_align-center">
-                    <c-duration-timer  start-time-string={startTime} end-time-string={currentTime}></c-duration-timer>
+                <div class="slds-grid slds-grid_align-center">
+                    <c-duration-timer start-time-string={startTime} end-time-string={currentTime}></c-duration-timer>
                 </div>
-            </template> 
+            </template>
 
-            <lightning-record-edit-form object-api-name="cm_bm__TimeEntry__c">
-             
-                <lightning-input-field disabled={isRecording} data-id="InputProject_Team_Member__c"
-                    value={cm_bm__Project_Team_MemberId} field-name="cm_bm__Project_Team_Member__c">
+            <lightning-record-edit-form object-api-name="TimeEntry__c">
+              
+                <lightning-input-field required disabled={isRecording} data-id="InputProject_Team_Member__c"
+                    value={Project_Team_MemberId} field-name="Project_Team_Member__c"
+                    onchange={changeProjectTeamMember}>
+                </lightning-input-field>
+                <lightning-input-field required disabled={isRecording} data-id="InputProject_Task__c"
+                    value={Project_TaskId} field-name="Project_Task__c" onchange={changeProjectTask}>
                 </lightning-input-field>
 
-                <lightning-input-field disabled={isRecording} data-id="InputProject_Task__c" value={cm_bm__Project_TaskId}
-                    field-name="cm_bm__Project_Task__c">
-                </lightning-input-field>
-
+                
             </lightning-record-edit-form>
 
+            
+
             <template if:true={isFullyLoaded}>
+                
+                <lightning-record-edit-form object-api-name="TimeEntry__c">
+                    <lightning-input-field 
+                    disabled value={startTime}
+                    field-name="Start__c">
+                </lightning-input-field>
+                <!-- <lightning-input-field 
+                disabled value={startTime}
+                field-name="End__c">
+            </lightning-input-field> -->
 
+           </lightning-record-edit-form>
+              
                 <div class="slds-grid slds-grid_vertical">
-
-                    <lightning-textarea value={Description} name="cm_bm__Description__c" onblur={updateRecordValue}
-                        data-id="InputDescription__c" label="Description">
+                    <lightning-textarea value={Description}  onblur={updateRecordValue}  name="Description__c" data-id="InputDescription__c"
+                        label="Description">
                     </lightning-textarea>
 
+
+                   
+                    
                     <div class="slds-grid slds-grid_align-center slds-m-top_medium slds-gutters slds-gutters_x-small">
+                        <div class="slds-col">
+                            <lightning-button  label="Stop" data-id="submitTimeEntryButton"
+                            icon-name="utility:record_create" variant="destructive" disabled={isWorking}
+                            name="Submit active recording" onclick={stopRecording} >
+                        </lightning-button>
+                        </div>
                         <div class="slds-col">
                             <lightning-button data-id="submitTimeEntryButton" label="Submit"
                                 icon-name="utility:record_create" variant="success" disabled={isWorking}
-                                name="Submit active recording" onclick={stopRecording}>
+                                name="Submit active recording" onclick={submitRecording}>
                             </lightning-button>
+                        </div> 
+                        <div class="slds-col">
+                            <lightning-button-icon icon-name="utility:delete" data-id="deleteTimeEntryButton"
+                                name="Delete active recording" disabled={isWorking} onclick={deleteRecording}>
+                            </lightning-button-icon>
                         </div>
+                    </div>
+
+                </div>
+
+            </template>
+
+
+
+
+            <template if:true={isFullyUpdated}>
+                
+                <lightning-record-edit-form object-api-name="TimeEntry__c">
+                    <lightning-input-field 
+                    value={startTime2}
+                   field-name="Start__c">
+               </lightning-input-field>
+                    
+                    <lightning-input-field 
+                     value={endTime}
+                    field-name="End__c">
+                </lightning-input-field>
+               
+
+           </lightning-record-edit-form>
+              
+                <div class="slds-grid slds-grid_vertical">
+                    <lightning-textarea value={Description}  onblur={updateRecordValue}  name="Description__c" data-id="InputDescription__c"
+                        label="Description">
+                    </lightning-textarea>
+                     <div class="slds-grid slds-grid_align-center slds-m-top_medium slds-gutters slds-gutters_x-small">
+                        <div class="slds-col">
+                            <lightning-button  label="Stop" data-id="submitTimeEntryButton"
+                            icon-name="utility:record_create" variant="destructive" disabled={isWorking}
+                            name="Submit active recording" onclick={stopRecording} >
+                        </lightning-button>
+                        </div>
+                        <div class="slds-col">
+                            <lightning-button data-id="submitTimeEntryButton" label="Submit"
+                                icon-name="utility:record_create" variant="success" disabled={isWorking}
+                                name="Submit active recording" onclick={submitRecording}>
+                            </lightning-button>
+                        </div> 
+                        
+                        
                         <div class="slds-col">
                             <lightning-button-icon icon-name="utility:delete" data-id="deleteTimeEntryButton"
                                 name="Delete active recording" disabled={isWorking} onclick={deleteRecording}>
